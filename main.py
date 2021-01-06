@@ -11,6 +11,8 @@ import os
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image as IMG
 from torchvision import transforms as tmf
+from options.test_options import TestOptions
+
 
 class CelebDataset(Dataset):
     def __init__(self, **kw):
@@ -92,6 +94,26 @@ dataloader = DataLoader(dataset=celebdataset, batch_size=4, pin_memory=True, num
 
 batch = next(dataloader.__iter__())
 print(batch['input'].shape)
+
+opt = TestOptions().parse(save=False)
+parameter_set(opt)
+
+
+# self.parser.add_argument("--batchSize", type=int, default=1, help="input batch size")
+# self.parser.add_argument("--loadSize", type=int, default=1024, help="scale images to this size")
+# self.parser.add_argument("--fineSize", type=int, default=512, help="then crop to this size")
+# self.parser.add_argument("--label_nc", type=int, default=35, help="# of input label channels")
+# self.parser.add_argument("--input_nc", type=int, default=3, help="# of input image channels")
+# self.parser.add_argument("--output_nc", type=int, default=3, help="# of output image channels")
+# vae1 = networks.GlobalGenerator_DCDCv2(
+        opt.input_nc,
+        opt.output_nc,
+        opt.ngf,
+        opt.k_size,
+        opt.n_downsample_global,
+        networks.get_norm_layer(norm_type=opt.norm),
+        opt=opt,
+    )
 
 vae1, xr_recon_d, z_xr_d, vae2, y_recon_d, optimizer_vae1, optimizer_d1, optimizer_vae2, optimizer_d2 = build_model(opt)
 start_iter = 0
