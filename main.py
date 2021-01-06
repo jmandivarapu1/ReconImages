@@ -11,7 +11,7 @@ import os
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image as IMG
 from torchvision import transforms as tmf
-from options.test_options import TestOptions
+from Global.options.test_options import TestOptions
 
 
 class CelebDataset(Dataset):
@@ -95,6 +95,7 @@ dataloader = DataLoader(dataset=celebdataset, batch_size=4, pin_memory=True, num
 batch = next(dataloader.__iter__())
 print(batch['input'].shape)
 
+sys.exit()
 opt = TestOptions().parse(save=False)
 parameter_set(opt)
 
@@ -105,7 +106,7 @@ parameter_set(opt)
 # self.parser.add_argument("--label_nc", type=int, default=35, help="# of input label channels")
 # self.parser.add_argument("--input_nc", type=int, default=3, help="# of input image channels")
 # self.parser.add_argument("--output_nc", type=int, default=3, help="# of output image channels")
-# vae1 = networks.GlobalGenerator_DCDCv2(
+vae1 = networks.GlobalGenerator_DCDCv2(
         opt.input_nc,
         opt.output_nc,
         opt.ngf,
